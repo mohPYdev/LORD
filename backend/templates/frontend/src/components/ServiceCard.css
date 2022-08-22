@@ -1,0 +1,11 @@
+.card-img-top{
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.img-container{
+    padding: 1em;
+    height:12em;
+    width: 250px;
+}

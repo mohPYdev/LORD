@@ -1,0 +1,14 @@
+.form-check-label {
+    font-weight: normal;
+    font-size: medium
+}
+
+.title {
+    font-weight: 500;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+.something {
+    text-align: left;
+    align-items: left;
+}
