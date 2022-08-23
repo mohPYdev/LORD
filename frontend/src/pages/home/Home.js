@@ -33,7 +33,13 @@ export default function Home() {
   const [has_description_item,
     setHasDescItem] = useState(false)
   const [has_large_number,
-    setHasLargeNum] = useState(false)
+    setHasLargeNum] = useState(false)  
+  const [email,
+    setEmail] = useState('')
+  const [password,
+    setPassword] = useState('')
+  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -49,6 +55,8 @@ export default function Home() {
       has_img_item,
       has_img_service,
       has_large_number,
+      email,
+      password,
     })
   }
 
@@ -64,8 +72,8 @@ export default function Home() {
       <div className="container py-4 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className='col-sm-10'>
-            <div className="card  mb-4">
-              <div className="card-body p-4">
+            <div className="card ">
+              <div className="card-body p-3">
                 <h3 className="mb-2">Generation Form</h3>
                 <hr className="my-2"/>
                 <div className='d-flex justify-content-center mt-2'>
@@ -86,7 +94,7 @@ export default function Home() {
                             onChange={(e) => setName(e.target.value)}
                             placeholder="name"/>
                         </div>
-                        <div className="form-group mt-4">
+                        <div className="form-group mt-3">
                           <label for="exampleFormControlTextarea1">Description</label>
                           <textarea
                             className="form-control"
@@ -95,50 +103,25 @@ export default function Home() {
                             onChange={(e) => setDescription(e.target.value)}
                             value={description}/>
                         </div>
-
-                        <div className='form-group mt-2'>
-                          <div className='row'>
+                        
+                        {has_email && <div>
+                          <div className='row mt-2'>
+                            Fill this information according to your admin email credential.
+                          </div>
+                          <div className='row mt-2'>
                             <div className='col'>
-                              <p className='title something mt-2'>Type of system</p>
+                              email
+                              <input className='form-control' type='email' onChange={(e) => setEmail(e.target.value) } value={email} />
                             </div>
-                            <div className='col-sm-5 something'>
-                              <div className="form-check form-check-inline">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="typeradio"
-                                  id="radiotype1"
-                                  onClick={(e) => setType('place')}/>
-                                <label className="form-check-label" for="radiotype1">
-                                  Place
-                                </label>
-                              </div>
-                              <div className="form-check form-check-inline">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="typeradio"
-                                  id="radiotype2"
-                                  onClick={(e) => setType('person')}/>
-                                <label className="form-check-label" for="radiotype2">
-                                  Human
-                                </label>
-                              </div>
-                              <div className="form-check form-check-inline">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="typeradio"
-                                  id="radiotype3"
-                                  onClick={(e) => setType('resource')}/>
-                                <label className="form-check-label" for="radiotype3">
-                                  Resource
-                                </label>
-                              </div>
+                            <div className='col'>
+                              password
+                              <input type='password' className='form-control' onChange={(e) => setPassword(e.target.value)} value={password} />
                             </div>
                           </div>
+                        </div>}
 
-                        </div>
+                        
+                        
 
                       </div>
 
@@ -271,7 +254,7 @@ export default function Home() {
                         <div className='form-group mt-2'>
                           <div className='row'>
                             <div className='col'>
-                              <p className='title'>Theme</p>
+                              <p className=''>Theme</p>
                             </div>
                             <div className='col something'>
                               <div className="form-check form-check-inline">
@@ -294,6 +277,50 @@ export default function Home() {
                                   onClick={(e) => setTheme('dark')}/>
                                 <label className="form-check-label" for="radiotheme2">
                                   Dark
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div className='form-group mt-4'>
+                          <div className='row'>
+                            <div className='col'>
+                              <p className='mt-2'>Type of system</p>
+                            </div>
+                            <div className='col-sm-5 something'>
+                              <div className="form-check form-check-inline">
+                                <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="typeradio"
+                                  id="radiotype1"
+                                  onClick={(e) => setType('place')}/>
+                                <label className="form-check-label" for="radiotype1">
+                                  Place
+                                </label>
+                              </div>
+                              <div className="form-check form-check-inline">
+                                <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="typeradio"
+                                  id="radiotype2"
+                                  onClick={(e) => setType('person')}/>
+                                <label className="form-check-label" for="radiotype2">
+                                  Human
+                                </label>
+                              </div>
+                              <div className="form-check form-check-inline">
+                                <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="typeradio"
+                                  id="radiotype3"
+                                  onClick={(e) => setType('resource')}/>
+                                <label className="form-check-label" for="radiotype3">
+                                  Resource
                                 </label>
                               </div>
                             </div>

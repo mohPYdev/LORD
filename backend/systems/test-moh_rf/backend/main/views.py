@@ -7,6 +7,8 @@ from core.models import *
 from datetime import datetime, date, timedelta
 from django.db.models import Q
 from django.contrib.auth import get_user_model
+from main.send_mail import send_mail
+import globals
 
 User = get_user_model()
 
@@ -42,7 +44,7 @@ class ShiftViewSet(viewsets.ModelViewSet):
                 difft = datetime.combine(date.today(), reservation.time) - datetime.combine(date.today(), startAvailable)
                 if difft.seconds >= service.duration.seconds:
                     x = startAvailable
-                    while reservation.time >= self.add_duration(x, service.duration, shift.date)['time'] and reservation.date == self.add_duration(x, service.duration, shift.date)['date'] :
+                    while reservation.time >= self.add_duration(x, service.duration, shift.date)['time'] and shift.date == self.add_duration(x, service.duration, shift.date)['date'] :
                         available_times.append({'start': x})
                         x = self.add_duration(x, service.duration, shift.date)['time']
                 startAvailable = (datetime.combine(shift.date,reservation.time) + reservation.service.duration).time()
@@ -64,10 +66,15 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         super().destroy(request)
-        return Response({"msg": "deleted"})        
+        return Response({"msg": "deleted"})
+            
+    def get_queryset(self):
+        return self.queryset.filter(reserver = self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(reserver = self.request.user)
+        t= serializer.save(reserver = self.request.user)
+        send_mail(t.code, "reservation system", "reservation saved", globals.EMAIL, [t.reserver.email,])
+        return t
 
 
 class ServiceViewSet(viewsets.ModelViewSet):

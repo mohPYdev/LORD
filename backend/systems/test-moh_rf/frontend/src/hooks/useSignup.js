@@ -38,16 +38,14 @@ export const useSignup = () => {
         throw new Error("Could not complete signup");
       }
 
+      navigate("/login");
       if (!isCancelled) {
         setIsPending(false);
         setError(null);
-        navigate("/login");
       }
     } catch (err) {
       if (!isCancelled) {
-        setError(Object.values(err.response.data)[0][0]);
         setIsPending(false);
-        alert(Object.values(err.response.data)[0][0]);
       }
     }
   };

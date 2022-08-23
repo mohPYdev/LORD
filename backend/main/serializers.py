@@ -12,7 +12,7 @@ class ConfigSerializer(serializers.ModelSerializer):
         model = Config
         fields = ['id', 'type', 'name', 'description', 'theme', 'has_img_service',
          'has_img_item', 'has_price', 'has_email', 'has_description_service', 'has_description_item',
-         'has_large_number',]
+         'email', 'password', 'has_large_number',]
          
         read_only_fields = ['id',]
 

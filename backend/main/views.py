@@ -212,9 +212,9 @@ class GenerateFilesView(APIView):
 
             # backend
 
-        with open(os.path.join(path + 'backend/', 'globals.py'), 'w') as f:
-            s = system.name.replace(" ", "")
-            f.write(f'PROJECT_NAME="{s}"')
+        # with open(os.path.join(path + 'backend/', 'globals.py'), 'w') as f:
+        #     s = system.name.replace(" ", "")
+        #     f.write(f'PROJECT_NAME="{s}"')
 
         # models.py -> service price
         if not system.has_price:
@@ -230,8 +230,8 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
-                x = content[112]
-                content[113] = x[:39] + x[47:]
+                x = content[117]
+                content[117] = x[:39] + x[47:]
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
                 f.writelines(content)
@@ -310,12 +310,36 @@ class GenerateFilesView(APIView):
                     content[i] = '\n'
                 
                 item_line = content[52]
-                item_line = item_line[:28]  + item_line[36:]
+                item_line = item_line[:28]  + item_line[35:]
                 content[52] = item_line
 
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
                 f.writelines(content)
+
+        if not system.has_email:
+            content = []
+            with open(os.path.join(path + 'backend/main/', 'views.py'), 'r') as f:
+                content = f.readlines()
+                content[75] = '\n'
+
+            with open(os.path.join(path + 'backend/main/', 'views.py'), 'w') as f:
+                f.writelines(content)
+
+
+        content = []
+        with open(os.path.join(path + 'backend/', 'globals.py'), 'r') as f:
+            content = f.readlines()
+            s = system.name.replace(" ", "")
+            content[0] = f'PROJECT_NAME="{s}"\n'
+
+            if system.has_email:
+                content[1] = f'EMAIL="{system.email}"\n'
+                content[2] = f'USERNAME="{system.email}"\n'
+                content[3] = f'PASSWORD="{system.password}"\n'
+
+        with open(os.path.join(path + 'backend/', 'globals.py'), 'w') as f:
+            f.writelines(content)
 
             # frontend
 

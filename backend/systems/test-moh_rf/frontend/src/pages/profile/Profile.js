@@ -45,6 +45,12 @@ export default function Profile() {
                       <p>{user
                           ?.email}</p>
                     </li>
+                    <li
+                      className="list-group-item d-flex justify-content-between align-items-center">
+                      phone number
+                      <p>{user
+                          ?.phone_number}</p>
+                    </li>
                   </ul>
                   <div className='d-flex justify-content-center mt-3'>
                     <button type="button" className="btn btn-primary">change password</button>

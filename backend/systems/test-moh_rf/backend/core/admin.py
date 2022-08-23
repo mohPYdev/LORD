@@ -9,31 +9,31 @@ from .models import Item, Reservation, Shift, Service, Category, User
 from rest_framework.authtoken.models import TokenProxy as DRFToken
 
 
-class ItemAdminForm(ModelForm):
-     
-    number_of_items = forms.IntegerField()
-
-    def save(self, commit=True):
-        number_of_items = self.cleaned_data.get('number_of_items', None)
-        for i in range(number_of_items - 1):
-            Item.objects.create(
-                name=self.cleaned_data.get('name')[:-1] + str(i+2),
-                category=self.cleaned_data.get('category'),
-                description=self.cleaned_data.get('description'),
-                image=self.cleaned_data.get('image')            
-            )
-
-        return super(ItemAdminForm, self).save(commit=commit)
-    
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        name += '1'
-        return name
 
 
-    class Meta:
-        model = Item
-        fields = '__all__'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -41,7 +41,7 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ("name", )
     list_filter = ('category', )
 
-    form = ItemAdminForm
+
 
 
 class ShiftAdminForm(ModelForm):
@@ -50,9 +50,7 @@ class ShiftAdminForm(ModelForm):
 
     class Meta:
         model = Shift
-        exclude = ('shift', 'item',)
-
-        widgets = {
+        exclude = ('shift',         widgets = {
             'start_time' : TimePickerInput(),
             'end_time' : TimePickerInput(),
             'date': DatePickerInput()
@@ -70,32 +68,36 @@ class ShiftAdminForm(ModelForm):
         return super().clean()
 
     
-    def save(self, commit=True):
-        instance = super(ShiftAdminForm, self).save(commit=False)
-        items = Item.objects.filter(category=self.cleaned_data['category'])
-        instance.item = items[0]
-        for i in range(1, len(items)):
-            s = Shift.objects.create(
-                item=items[i],
-                start_time = instance.start_time,
-                end_time = instance.end_time,
-                date = instance.date,
-                repeat = instance.repeat,
-                n_time_repeat = instance.n_time_repeat,
-            )
-            
-            for service in self.cleaned_data['services']:
-                s.services.add(service)
 
-        if commit: 
-            instance.save()
-        return instance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class ShiftAdmin(admin.ModelAdmin):
     form = ShiftAdminForm
-    list_display = ('date', 'start_time', 'end_time', 'item')
+    list_display = ('date', 'start_time', 'end_time', 'item', 'get_category')
     list_filter = ('services', 'item')
+
+    def get_category(self, obj):
+        return obj.item.category
+    get_category.short_description = 'Category'
 
 
 class ServiceAdminForm(ModelForm):

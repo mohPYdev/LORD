@@ -94,8 +94,12 @@ class ShiftAdminForm(ModelForm):
 
 class ShiftAdmin(admin.ModelAdmin):
     form = ShiftAdminForm
-    list_display = ('date', 'start_time', 'end_time', 'item')
+    list_display = ('date', 'start_time', 'end_time', 'item', 'get_category')
     list_filter = ('services', 'item')
+
+    def get_category(self, obj):
+        return obj.item.category
+    get_category.short_description = 'Category'
 
 
 class ServiceAdminForm(ModelForm):

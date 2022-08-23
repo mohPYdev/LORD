@@ -9,11 +9,15 @@ export default function Landing() {
         <div
           className="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
           <div className="col-lg-8 align-self-end">
-            <h1 className="text-white font-weight-bold">Azadizadizadi</h1>
+            <h1 className="text-white font-weight-bold"> 
+test
+            </h1>
             <hr className="divider"/>
           </div>
           <div className="col-lg-8 align-self-baseline">
-            <p className="text-white mb-5">the coolest statdi;alskd flkasjd;fj; as;dklf jas;ldkfj asdlfjkhe coolest statdi;alskd flkasjd;fj; as;dklf jas;ldkfj asdlfjkhe coolest statdi;alskd flkasjd;fj; as;dklf jas;ldkfj asdlfjk</p>
+            <p className="text-white mb-5">
+asdfasdfasdfasdf
+            </p>
             <Link className="btn btn-primary btn-xl" to={'/home'} >Book now</Link>
           </div>
         </div>

@@ -91,8 +91,8 @@ export default function ServiceCard({shift, serv_id}) {
         <div className="card-body">
           <h5 className="card-title">{date}</h5>
           <h6 className="card-subtitle mb-2 text-muted">{start_t} - {end_t}</h6>
-          {available && <span className='btn btn-success btn-sm disabled'>available</span>}
-          {!available && <span className='btn btn-danger btn-sm disabled '>unavailable</span>}
+          {available && !is_full && <span className='btn btn-success btn-sm disabled'>available</span>}
+          {!available && !is_full && <span className='btn btn-danger btn-sm disabled '>unavailable</span>}
           {is_full && <span className='btn btn-danger btn-sm disabled '>full</span> }
           <hr></hr>
           <ShowItem doc_id={shift?.item} />

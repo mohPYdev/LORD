@@ -28,6 +28,8 @@ class Config(models.Model):
     description = models.TextField(blank=True)
     theme = models.CharField(max_length=20, blank=True, choices=THEMES, default='light')
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    email = models.EmailField(null=True, blank=True)
+    password = models.CharField(null=True, blank=True, max_length=20)
 
     def __str__(self):
         return self.name + '-' +  self.user.username + '-' + str(self.id)

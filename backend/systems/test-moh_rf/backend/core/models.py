@@ -17,8 +17,8 @@ def get_random_string_me():
 
 
 
-def upload_service_image_path(instance, filename):
-    return os.path.join('uploads/service', filename)
+
+
 
 
 
@@ -80,9 +80,9 @@ class Shift(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=100)
     duration = models.DurationField(default=datetime.timedelta(minutes=15))
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField(null=True)
-    image = models.ImageField(upload_to=upload_service_image_path, null=True, blank=True)
+
+
+
     subtitle = models.CharField(max_length=50, null=True)
 
     def __str__(self) -> str:

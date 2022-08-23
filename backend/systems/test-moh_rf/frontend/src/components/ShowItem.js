@@ -6,14 +6,14 @@ export default function ShowItem({doc_id}) {
 
     const {data:item} = useFetch(LocalUrl + `items/${doc_id}/`)
 
-    const [sumDes, setSumDes] = useState()
+    // const [sumDes, setSumDes] = useState()
     
     
-    useEffect(() => {
-      if (item) {
-        setSumDes(item.description.substring(0,30))
-      }
-    }, [item])
+    // useEffect(() => {
+    //   if (item) {
+    //     setSumDes(item.description.substring(0,30))
+    //   }
+    // }, [item])
 
   return (
     <div>

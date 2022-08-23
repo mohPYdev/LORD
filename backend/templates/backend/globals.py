@@ -1,3 +1,4 @@
 PROJECT_NAME = "healthcenter"
-
-ITEM_NAME = "doctor"
+EMAIL = 'test'
+USERNAME = 'test'
+PASSWORD = 'test'
