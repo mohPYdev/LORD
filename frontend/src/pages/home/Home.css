@@ -1,14 +1,20 @@
-.form-check-label {
-    font-weight: normal;
-    font-size: medium
-}
+.Home {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .Home .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    background: lightgray;
+  }
 
-.title {
-    font-weight: 500;
-    font-family: 'Fira Sans', sans-serif;
-}
-
-.something {
+  .something {
     text-align: left;
     align-items: left;
 }

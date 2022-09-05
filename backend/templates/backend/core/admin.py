@@ -4,8 +4,9 @@ from durationwidget.widgets import TimeDurationWidget
 from django.forms import ModelForm, ValidationError
 from datetime import datetime, date
 from django import forms
-
-from .models import Item, Reservation, Shift, Service, Category, User
+from django.db.models import Q
+from django.contrib.auth.admin import UserAdmin
+from .models import Item, Reservation, Shift, Service, Category, User, ShiftProxy, ReservationArchive
 from rest_framework.authtoken.models import TokenProxy as DRFToken
 
 
@@ -50,8 +51,11 @@ class ShiftAdminForm(ModelForm):
 
     class Meta:
         model = Shift
-        exclude = ('shift', 'item',)
-
+        exclude = (
+            'shift', 
+            'item',
+            'is_archive'
+           )
         widgets = {
             'start_time' : TimePickerInput(),
             'end_time' : TimePickerInput(),
@@ -91,15 +95,43 @@ class ShiftAdminForm(ModelForm):
             instance.save()
         return instance
 
-
+@admin.action(description='archive')
+def make_archive(modeladmin, request, queryset):
+    queryset.update(is_archive=True)
 class ShiftAdmin(admin.ModelAdmin):
-    form = ShiftAdminForm
+    list_display = ('date', 'start_time', 'end_time', 'item', 'get_category')
+    list_filter = ('services', 'item')
+
+    actions = [make_archive]
+
+    def get_form(self, request, obj, **kwargs):
+        if obj:
+            return super().get_form(request, obj,**kwargs)
+        return ShiftAdminForm
+
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(is_archive = False)
+
+    def get_category(self, obj):
+        return obj.item.category
+    get_category.short_description = 'Category'
+
+
+class ShiftProxyAdmin(admin.ModelAdmin):
+
     list_display = ('date', 'start_time', 'end_time', 'item', 'get_category')
     list_filter = ('services', 'item')
 
     def get_category(self, obj):
         return obj.item.category
     get_category.short_description = 'Category'
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(is_archive=True)
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 class ServiceAdminForm(ModelForm):
@@ -109,27 +141,51 @@ class ServiceAdminForm(ModelForm):
 
         widgets = {
             'duration' : TimeDurationWidget(show_seconds=False, show_days=False),
+            'subtitle': forms.TextInput(attrs={'placeholder': 'e.g. VIP , Regular, Dentist,'})
         }
 
 
 class ServiceAdmin(admin.ModelAdmin):
     form = ServiceAdminForm
-    list_display= ('name', 'subtitle', 'price', )
+    list_display= (
+        'name',
+        'subtitle',
+        'price',
+        )
 
 
-class ReservationAdmin(admin.ModelAdmin):
-    list_display = ('item', 'reserver',  'time', 'code')
+class ReservationArchiveAdmin(admin.ModelAdmin):
+
+    list_display = ('item', 'reserver',  'time', 'code', 'status')
     list_filter = ('item',)
 
 
-class UserAdmin(admin.ModelAdmin):
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(Q(is_archive=True) | Q(status='not accepted'))
+
+    def has_add_permission(self, request, obj=None):
+        # cannot add an entity
+        return False
+
+
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('item', 'reserver',  'time', 'code', 'status')
+    list_filter = ('item',)
+    actions = [make_archive]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(Q(is_archive=False) & ~Q(status='not accepted'))
+
+
+class UserAdminCustom(UserAdmin):
     list_display = ('username', 'email', 'phone_number')
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User, UserAdminCustom)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(Shift, ShiftAdmin)
+admin.site.register(ShiftProxy, ShiftProxyAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Category)
 admin.site.unregister(DRFToken)

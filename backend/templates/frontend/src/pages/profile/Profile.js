@@ -70,6 +70,7 @@ export default function Profile() {
                       <th>Service</th>
                       <th>Time</th>
                       <th>code</th>
+                      <th>status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -86,6 +87,7 @@ export default function Profile() {
                         service_id={reserv.service} 
                         time={reserv.time}
                         code={reserv.code}
+                        status={reserv.status}
                         
                         deleteItem={deleteItem}
                         

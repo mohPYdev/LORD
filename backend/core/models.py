@@ -2,6 +2,17 @@ from datetime import timedelta
 from django.db import models
 
 
+def logo_upload(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'logo.{ext}'
+    return f'logo/{instance.name}/{filename}'
+
+def home_page_upload(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'home_page.{ext}'
+    return f'homeP/{instance.name}/{filename}'
+
+
 class Config(models.Model):
 
     UsageType = (
@@ -30,17 +41,30 @@ class Config(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     email = models.EmailField(null=True, blank=True)
     password = models.CharField(null=True, blank=True, max_length=20)
+    paymentType = models.CharField(max_length=20, null=True, blank=True)
+    logo = models.ImageField(upload_to=logo_upload, blank=True, null=True)
+    home_page_image = models.ImageField(upload_to=home_page_upload, blank=True, null=True)
+    has_forget_pass = models.BooleanField(default=False)
+    attributes = models.ManyToManyField('Attribute')
 
     def __str__(self):
         return self.name + '-' +  self.user.username + '-' + str(self.id)
 
 
-# class Tag(models.Model):
-#     """tags for items"""
-#     name = models.CharField(max_length=100)
+class Attribute(models.Model):
+    """attribute for items"""
 
-#     def __str__(self) -> str:
-#         return self.name
+    UsageType = (
+        ('person', 'person'),
+        ('place', 'place'),
+        ('resource', 'resource'),
+    )
+    
+    type = models.CharField(max_length=30, choices=UsageType, default='place')
+    name = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 

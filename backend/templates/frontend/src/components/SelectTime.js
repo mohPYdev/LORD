@@ -27,6 +27,13 @@ export default function SelectTime({id, service_id, setTime, setTimePicked, setI
     }
   }, [freetimes])
 
+  
+  if (freetimes?.length === 1){
+    setTime(freetimes[0].start)
+    setTimePicked(true)
+    return null
+  }
+
   return (
     <>
       <Button variant="primary" onClick={handleShow}>

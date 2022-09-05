@@ -5,6 +5,8 @@ if exist venv\ (
   	cd "venv\Scripts"
 	activate
 	cd ../../backend/
+	py manage.py makemigrations core
+	py manage.py migrate
 	start py manage.py runserver
 	cd "../frontend\"
 	start npm start

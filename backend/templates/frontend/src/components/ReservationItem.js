@@ -5,7 +5,7 @@ import { LocalUrl } from '../urls/urls'
 import { useFetch } from '../hooks/useFetch'
 
 
-export default function ReservationItem({res_id, doc_id, shift_id, service_id, time, deleteItem, code}) {
+export default function ReservationItem({res_id, doc_id, shift_id, service_id, time, deleteItem, code, status}) {
 
     const {data:item} = useFetch(LocalUrl + `items/${doc_id}/`)
     const {data:shift} = useFetch(LocalUrl + `shifts/${shift_id}/`)
@@ -87,6 +87,12 @@ export default function ReservationItem({res_id, doc_id, shift_id, service_id, t
 
         <td>
           <p className="fw-normal mb-1">{code}</p>
+        </td>
+
+        <td>
+          {status == 'review' && <p className="fw-normal mb-1 text-warning">{status}</p>}
+          {status == 'not accepted' && <p className="fw-normal mb-1 text-danger">{status}</p>}
+          {status == 'accepted' && <p className="fw-normal mb-1 text-success">{status}</p>}
         </td>
 
         <td>

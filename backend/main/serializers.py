@@ -6,15 +6,26 @@ User = get_user_model()
 
 
 
+
+
+class AttributeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Attribute
+        fields = '__all__'
+        read_only_fields = ['id',]
+
+
 class ConfigSerializer(serializers.ModelSerializer):
+
+    logo = serializers.ImageField(required=False)
+    home_page_image = serializers.ImageField(required=False)
 
     class Meta:
         model = Config
-        fields = ['id', 'type', 'name', 'description', 'theme', 'has_img_service',
-         'has_img_item', 'has_price', 'has_email', 'has_description_service', 'has_description_item',
-         'email', 'password', 'has_large_number',]
-         
+        exclude = ('user',)         
         read_only_fields = ['id',]
+    
 
 
 # class ResItemSerializer(serializers.ModelSerializer):

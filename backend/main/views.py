@@ -1,4 +1,5 @@
 import os
+import json
 
 from django.shortcuts import HttpResponse
 
@@ -11,6 +12,9 @@ from rest_framework.permissions import IsAuthenticated
 from main.serializers import *
 from core.models import *
 from django.contrib.auth import get_user_model
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+
+from PIL import Image
 
 import shutil
 
@@ -21,12 +25,32 @@ class ConfigViewSet(viewsets.ModelViewSet):
     queryset = Config.objects.all()
     serializer_class = ConfigSerializer
     permission_classes = (IsAuthenticated,)
+    parser_classes = (MultiPartParser, JSONParser)
+
 
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
 
     def get_queryset(self):
         return self.queryset.filter(user= self.request.user)
+
+
+class AttributeViewSet(viewsets.ModelViewSet):
+    queryset = Attribute.objects.all()
+    serializer_class = AttributeSerializer
+    permission_classes = (IsAuthenticated,)
+
+    @action(detail=False, methods=['get'], url_path = 'get_attributes/(?P<type>\w+)')
+    def get_attributes(self, request, type):
+
+        attributes = self.queryset.filter(type=type)
+
+        serializer = AttributeSerializer(attributes, many=True)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )
 
     # @action(detail=True, methods=['get'])
     # def get_items(self, request, pk=None):
@@ -200,21 +224,19 @@ class GenerateFilesView(APIView):
         system = Config.objects.get(id=self.kwargs['pk'])
         s_name = system.name.replace(" ", "")
         path = f'systems/{s_name}-{system.user.username}/'
+        hp_path = f'media/homeP/{system.name}/'
+        logo_path = f'media/homeP/{system.name}/'
 
         src = 'templates/'
 
         # copy files into the created folders
-        if not os.path.exists(path):
-            shutil.copytree(src, path)
+        if os.path.exists(path):
+            shutil.rmtree(path)
+        shutil.copytree(src, path)
 
 
-        # change the necessary files
 
             # backend
-
-        # with open(os.path.join(path + 'backend/', 'globals.py'), 'w') as f:
-        #     s = system.name.replace(" ", "")
-        #     f.write(f'PROJECT_NAME="{s}"')
 
         # models.py -> service price
         if not system.has_price:
@@ -230,8 +252,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
-                x = content[117]
-                content[117] = x[:39] + x[47:]
+                content[121] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
                 f.writelines(content)
@@ -306,12 +327,12 @@ class GenerateFilesView(APIView):
                     content[i] = '\n'
                 content[43] = '\n'
 
-                for i in range(72, 92):
+                for i in range(74, 94):
                     content[i] = '\n'
                 
-                item_line = content[52]
-                item_line = item_line[:28]  + item_line[35:]
-                content[52] = item_line
+                
+                content[54] = '\n'
+                content[48] = '\n'
 
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
@@ -341,6 +362,8 @@ class GenerateFilesView(APIView):
         with open(os.path.join(path + 'backend/', 'globals.py'), 'w') as f:
             f.writelines(content)
 
+
+#######################################################
             # frontend
 
         # landing js
@@ -358,6 +381,21 @@ class GenerateFilesView(APIView):
 
         with open(os.path.join(path + 'frontend/src/pages/landing/', 'Landing.js'), 'w') as f:
             f.writelines(content)
+        
+
+        # images
+        
+        if system.home_page_image:
+            hp = os.listdir(hp_path)[0]
+            img = Image.open(os.path.join(hp_path, hp))
+            img.save(os.path.join(path + 'frontend/src/pages/landing/', f'{hp.split(".")[0]}.jpg'))
+
+        if system.logo:
+            logo = os.listdir(logo_path)[0]
+            img = Image.open(os.path.join(logo_path, logo))
+            img.save(os.path.join(path + 'frontend/public/', f'{logo.split(".")[0]}.jpg'))
+            img.save(os.path.join(path + 'frontend/public/', f'{logo.split(".")[0]}.ico'))
+
 
         #  navbar
         content = []

@@ -10,6 +10,8 @@ import NavBar from './components/NavBar';
 import Reservation from './pages/reservation/Reservation'
 import Profile from './pages/profile/Profile';
 import Landing from './pages/landing/Landing';
+import ResetPass from './pages/resetpass/ResetPass'
+import ResetPassConfirm from './pages/resetpass/ResetPassConfirm'
 
 
 import {useAuthContext} from './hooks/useAuthContext'
@@ -57,6 +59,16 @@ function App() {
               element={user
               ? <Profile/>
               : <Navigate to="/login"/>}/>
+            <Route
+              path='/password/reset'
+              element={!user
+              ? <ResetPass/>
+              : <Navigate to="/home"/>}/>
+            <Route
+              path='/password/reset/confirm/:uid/:token'
+              element={!user
+              ? <ResetPassConfirm/>
+              : <Navigate to="/home"/>}/>
 
           </Routes>
         </div>

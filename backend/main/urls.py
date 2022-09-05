@@ -10,7 +10,7 @@ router = routers.SimpleRouter()
 # router.register(r'places', PlaceViewSet)
 # router.register(r'resources', ResourceViewSet)
 # router.register(r'time_slots', TimeSlotViewSet)
-# router.register(r'sections', SectionViewSet)
+router.register(r'attributes', AttributeViewSet)
 router.register(r'systems', ConfigViewSet)
 # router.register(r'services', ServiceViewSet)
 

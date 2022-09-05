@@ -97,27 +97,19 @@ DATABASES = {
 
 DJOSER = {
 
-    # 'USER_CREATE_PASSWORD_RETYPE': True,
-    # 'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
-    # 'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    # 'SEND_ACTIVATION_EMAIL': True,
-    # 'SET_PASSWORD_RETYPE': True,
-    # 'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    # 'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
-    # 'ACTIVATION_URL': 'activate/{uid}/{token}',
-    # "SEND_ACTIVATION_EMAIL": True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
         'user_create': 'main.serializers.CustomUserCreateSerializer',
-        # 'user_create_password_retype': 'users.serializers.CustomUserCreatePasswordRetypeSerializer',
         'user': 'main.serializers.CustomUserSerializer',
         'user_update': 'djoser.serializers.UserUpdateSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
         'current_user': 'main.serializers.CustomUserSerializer',
     },
-    # 'EMAIL': {
-    #         'activation': 'users.email.ActivationEmail',
-    # }
 }
+
+DOMAIN = 'localhost:3000'
+SITE_NAME = 'localhost:3000'
 
 
 # Password validation
@@ -165,3 +157,12 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.User'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = globals.EMAIL
+EMAIL_HOST_PASSWORD = globals.PASSWORD
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

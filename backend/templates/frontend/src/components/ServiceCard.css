@@ -9,3 +9,8 @@
     height:12em;
     width: 250px;
 }
+
+
+.float-right {
+    float: right;
+}

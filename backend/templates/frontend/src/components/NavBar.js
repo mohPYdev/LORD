@@ -17,6 +17,9 @@ export default function NavBar() {
   return (
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="container">
+            <a class="navbar-brand" href="/">
+              <img src="logo.jpg" width="40" height="40" alt="" />
+            </a>
             <Link className="navbar-brand" to={'/login'}>
                Sina Hospital
             </Link>

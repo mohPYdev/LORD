@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import './ServiceCard.css'
 
 import SelectTime from './SelectTime';
-
+import Payment from './Payment';
 import { LocalUrl } from '../urls/urls'
 import { useFetch } from '../hooks/useFetch'
 import ShowItem from './ShowItem';
@@ -25,6 +25,9 @@ export default function ServiceCard({shift, serv_id}) {
     setDate] = useState("date");
   const [time,
     setTime] = useState(null);
+  
+  const [pay_code,
+    setPayCode] = useState('');
 
   const [timePicked,
     setTimePicked] = useState(false)
@@ -39,7 +42,8 @@ export default function ServiceCard({shift, serv_id}) {
       "item": shift.item,
       "time": time,
       "service": serv_id,
-      "shift": shift.id
+      "shift": shift.id,
+      'pay_code': pay_code,
     })
   }
 
@@ -97,10 +101,15 @@ export default function ServiceCard({shift, serv_id}) {
           <hr></hr>
           <ShowItem doc_id={shift?.item} />
           {available && !is_full && <SelectTime id={shift.id} setIsFull={setIsFull} service_id={serv_id} setTime={setTime} setTimePicked={setTimePicked} /> }
-          {timePicked && <label className='ms-5  btn btn-outline-dark btn-sm'>{time}</label>}
+          {timePicked && <label className='float-right btn btn-outline-dark btn-sm'>{time}</label>}
 
         </div>
         {timePicked && <button className='btn btn-success' onClick={handleReserve}>save</button>}
-      </div>
+        {timePicked && <Payment 
+                        handleReserve={handleReserve}
+                        serv_id={serv_id}
+                        setPayCode={setPayCode} pay_code={pay_code}
+                      />}      
+        </div>
   )
 }

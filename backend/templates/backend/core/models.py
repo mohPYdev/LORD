@@ -60,7 +60,6 @@ class Shift(models.Model):
         ('every 2 weeks', 'every 2 weeks' ),
         ('every month', 'every month' ),
         ('every 2 months', 'every 2 months' ),
-        ('weekends', 'weekends' ),
     ]
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
@@ -72,6 +71,7 @@ class Shift(models.Model):
     shift = models.ForeignKey('Shift', on_delete= models.CASCADE, null=True, blank=True, related_name='repeatShifts')
     n_time_repeat = models.IntegerField(default=1)
     services = models.ManyToManyField('Service')
+    is_archive = models.BooleanField(default=False)
 
     def __str__(self):
         return  str(self.date) + ' ' + str(self.start_time) + '-' + str(self.end_time) + str(self.id)
@@ -90,15 +90,31 @@ class Service(models.Model):
 
 
 class Reservation(models.Model):
+
+    STATUS_TYPES = (
+        ('review','review'),
+        ('accepted', 'accepted'),
+        ('not accepted', 'not accepted')
+    )
+
     reserver = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE, null=True)
     service = models.ForeignKey('Service', on_delete=models.CASCADE, null=True)
     time = models.TimeField()
-    code = models.CharField(default=get_random_string_me, max_length=5)
+    code = models.CharField(default=get_random_string_me, max_length=9)
+    pay_code = models.CharField(max_length=20, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_TYPES, default='review')
+    is_archive = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.reserver.username + " " + str(self.time)
+
+
+class ReservationArchive(Reservation):
+    class Meta:
+        proxy = True
+
 
 
 
