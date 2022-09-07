@@ -7,11 +7,11 @@
  The default username and password of the admin is "admin" and "pass". It is recommended to change it in the admin dashboard as soon as possible.
  
  First you have some options on the left side of the screen. You should enter your data using those tabs as follows:
- 1.  #### categories. 
+ 1.  **Categories**. 
    - This is useful when you want to group your items. eg. "section A" in stadiums | "prof", "assistant Prof" in university faculty | "Dentist", "Family Doctor" in    hospitals. 
-2. #### Items 
-3. #### Services
-4. #### Shifts
+2. **Items** 
+3. **Services**
+4. **Shifts**
 
 Do Not write anything in the reservation section. In that section you can see the reservations.
  
