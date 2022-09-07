@@ -9,14 +9,18 @@
  First you have some options on the left side of the screen. You should enter your data using those tabs as follows:
  1.  **Categories**. 
    - This is useful when you want to group your items. eg. "section A" in stadiums | "prof", "assistant Prof" in university faculty | "Dentist", "Family Doctor" in    hospitals. 
-2. **Items** 
-3. **Services**
-4. **Shifts**
+2. **Items** - Item in this sample refers to Dr zamani himself
+3. **Services** - Services refer to the meeting that he can provide for his colleagues and students.
+4. **Shifts** - Times that he is in his office to do the meeting(services)
 
 Do Not write anything in the reservation section. In that section you can see the reservations.
  
+ Below you can see how to do the first two items of the list:
  
  ![](https://github.com/mohPYdev/RESGEN/blob/main/statics/dashboard%20demo%201.gif)
+ 
+ Here you can see how to enter the services and Shifts data:
+ 
  ![](https://github.com/mohPYdev/RESGEN/blob/main/statics/dashboard%20demo%202.gif)
 
 
