@@ -36,7 +36,7 @@ This project is an online panel for generating reservation/booking websites with
 
 Creating a simple booking website for my professor with the panel under 1 minute !
 
-![](https://github.com/Your_Repository_Name/Your_GIF_Name.gif)
+![](https://github.com/mohPYdev/RESGEN/blob/main/statics/demo.gif)
 
 
 
