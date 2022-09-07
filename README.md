@@ -57,19 +57,13 @@ Creating a simple booking website for my professor with the panel under 1 minute
 
 ## Run Locally
 
-Download the Project from the panel
-
-Extract the Zip file
-
-Connect to the Internet
-
-Install python on your system
-
-Double click the run.bat file
-
-Wait for the website to load
-
-Visit localhost:3000 to view your system
+1. Download the Project from the panel
+2. Extract the Zip file
+3. Connect to the Internet
+4. Install python on your system
+5. Double click the run.bat file
+6. Wait for the website to load
+7. Visit localhost:3000 to view your system
 
 
 
