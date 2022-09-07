@@ -56,7 +56,7 @@ Wait for the website to load
 Visit localhost:3000 to view your system
 
 ## Samples
-![Dr Bahman zamani] (https://github.com/mohPYdev/RESGEN/tree/main/Samples/DrBahmanZamani)
-![Naghsh Jahan Stadium] (https://github.com/mohPYdev/RESGEN/tree/main/Samples/Naghsh%20Jahan%20Stadium)
-![Tripsvvy Car rental] (https://github.com/mohPYdev/RESGEN/tree/main/Samples/TripsvvyCarrental)
+- [Dr Bahman zamani](https://github.com/mohPYdev/RESGEN/tree/main/Samples/DrBahmanZamani)
+- [Naghsh Jahan Stadium](https://github.com/mohPYdev/RESGEN/tree/main/Samples/Naghsh%20Jahan%20Stadium)
+- [Tripsvvy Car rental](https://github.com/mohPYdev/RESGEN/tree/main/Samples/TripsvvyCarrental)
 
