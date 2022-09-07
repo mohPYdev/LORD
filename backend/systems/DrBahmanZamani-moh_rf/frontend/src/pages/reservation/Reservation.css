@@ -1,0 +1,8 @@
+.reservation .card {
+    width: 18rem;
+    margin: 40px;
+}
+
+.reservation .times {
+    padding-bottom: 1rem;
+}

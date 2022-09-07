@@ -1,0 +1,11 @@
+.landing {
+    background: linear-gradient(rgba(37, 37, 37, 0.801), rgba(55, 56, 58, 0.589)),url("./home_page.jpg" );
+    background-size:100% 100%;
+    min-height: 100%;
+    /* background-color: rgb(173, 106, 19); */
+}
+
+.landing .btn {
+    border-radius: 50px;
+    padding: 1em;
+}

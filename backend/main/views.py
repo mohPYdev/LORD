@@ -472,12 +472,12 @@ class GenerateFilesView(APIView):
             
             if system.type == 'person':
                 nl = '\n'
-                if system.attributes.filter(name='first_name').exist():
+                if system.attributes.filter(name='first_name').exists():
                     nl =  f'        <p className="h5">{{item?.first_name}}</p>\n'
-                if system.attributes.filter(name='last_name').exist():
+                if system.attributes.filter(name='last_name').exists():
                     nl =  f'        <p className="h5">{{item?.last_name}}</p>\n'
-                if system.attributes.filter(name='first_name').exist():
-                    if system.attributes.filter(name='last_name').exist():
+                if system.attributes.filter(name='first_name').exists():
+                    if system.attributes.filter(name='last_name').exists():
                         nl =  f'        <p className="h5">{{item?.first_name  item?.last_name}}</p>\n'
                 
                 content[20] = nl
