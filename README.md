@@ -24,7 +24,6 @@ This project is an online panel for generating reservation/booking websites with
 
 
 
-
 ## Tech Stack
 
 **Client:** React, Bootstrap
@@ -48,6 +47,10 @@ Extract the Zip file
 
 Connect to the Internet
 
-Double click the venv file
+Install python on your system
+
+Double click the run.bat file
 
 Wait for the website to load
+
+Visit localhost:3000 to view your system
