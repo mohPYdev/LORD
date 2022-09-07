@@ -107,7 +107,7 @@ export default function ServiceCard({shift, serv_id}) {
 
         {timePicked && <Payment 
                         handleReserve={handleReserve}
-
+                        serv_id={serv_id}
 
                       />}      
         </div>
