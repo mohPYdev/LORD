@@ -52,7 +52,7 @@ after setting up your admin email, you can generate the system with the option t
 
 Creating a simple booking website for my professor with the panel under 1 minute !
 
-![](https://github.com/mohPYdev/RESGEN/blob/main/statics/demo.gif)
+![](https://github.com/mohPYdev/RESGEN/blob/main/statics/demo2.gif)
 
 
 
