@@ -306,6 +306,9 @@ class GenerateFilesView(APIView):
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
                 content[136] = '\n'
+                content[143] = '\n'
+                content[158] = '\n'
+
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
                 f.writelines(content)
@@ -315,9 +318,19 @@ class GenerateFilesView(APIView):
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
                 content[105] = '\n'
-                # content[106] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
+                f.writelines(content)
+
+            # admin.py
+            content = []
+            with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
+                content = f.readlines()
+                content[143] = '\n'
+                content[158] = '\n'
+
+
+            with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
                 f.writelines(content)
 
 
@@ -404,7 +417,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/main/', 'views.py'), 'r') as f:
                 content = f.readlines()
-                content[76] = '\n'
+                content[83] = '\n'
 
             with open(os.path.join(path + 'backend/main/', 'views.py'), 'w') as f:
                 f.writelines(content)
@@ -478,7 +491,7 @@ class GenerateFilesView(APIView):
                     nl =  f'        <p className="h5">{{item?.last_name}}</p>\n'
                 if system.attributes.filter(name='first_name').exists():
                     if system.attributes.filter(name='last_name').exists():
-                        nl =  f'        <p className="h5">{{item?.first_name  item?.last_name}}</p>\n'
+                        nl =  f'        <p className="h5">{{item?.first_name}}  {{item?.last_name}}</p>\n'
                 
                 content[20] = nl
 

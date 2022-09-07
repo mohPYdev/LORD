@@ -140,7 +140,9 @@ class ServiceAdmin(admin.ModelAdmin):
 
 class ReservationArchiveAdmin(admin.ModelAdmin):
 
-    list_display = ('item', 'reserver',  'time', 'code', 'status')
+    list_display = ('item', 'reserver',  'time', 'code', 
+    'status'
+    )
     list_filter = ('item',)
 
 
@@ -153,7 +155,9 @@ class ReservationArchiveAdmin(admin.ModelAdmin):
 
 
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ('item', 'reserver',  'time', 'code', 'status')
+    list_display = ('item', 'reserver',  'time', 'code', 
+    'status'
+    )
     list_filter = ('item',)
     actions = [make_archive]
 
