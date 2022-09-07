@@ -74,6 +74,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         super().destroy(request)
+        return Response({'msg':'deleted'})
 
             
     def get_queryset(self):
@@ -81,7 +82,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         t= serializer.save(reserver = self.request.user)
-        send_mail(t.code, "reservation system", "reservation saved", globals.EMAIL, [t.reserver.email,])
         return t
 
 

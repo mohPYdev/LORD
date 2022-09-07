@@ -660,6 +660,10 @@ class GenerateFilesView(APIView):
         # ServiceCard.css -> item and service image css
         if (not system.has_img_item) and (not system.has_img_service):
             content = []
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.css'), 'r') as f:
+                content = f.readlines()
+                content = content[11:]
+
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.css'), 'w') as f:
                 f.writelines(content)
         

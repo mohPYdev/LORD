@@ -18,7 +18,7 @@ export default function ShowItem({doc_id}) {
   return (
     <div>
 
-        <p className="h5">{item?.first_name  item?.last_name}</p>
+        <p className="h5">{item?.first_name}  {item?.last_name}</p>
         <p className="card-subtitle text-muted">{item?.category}</p>
 
         <p>{item?.address}</p>
