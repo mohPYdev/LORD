@@ -12,10 +12,10 @@ def get_random_string_me():
     return c
 
 
-def upload_item_image_path(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f'{instance.name}.{ext}'
-    return os.path.join('uploads/item', filename)
+
+
+
+
 
 def upload_service_image_path(instance, filename):
     return os.path.join('uploads/service', filename)
@@ -103,7 +103,7 @@ class Reservation(models.Model):
     service = models.ForeignKey('Service', on_delete=models.CASCADE, null=True)
     time = models.TimeField()
     code = models.CharField(default=get_random_string_me, max_length=9)
-    pay_code = models.CharField(max_length=20, null=True, blank=True)
+
     status = models.CharField(max_length=20, choices=STATUS_TYPES, default='review')
     is_archive = models.BooleanField(default=False)
 
@@ -120,8 +120,10 @@ class Item(models.Model):
 
     name = models.CharField(max_length=100)
     category = models.ForeignKey('Category', on_delete=models.DO_NOTHING, null=True)
-    description = models.TextField()
-    image = models.ImageField(upload_to=upload_item_image_path, null=True, blank=True)
+
+
+    address = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name

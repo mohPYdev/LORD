@@ -8,8 +8,8 @@ import { LocalUrl } from '../urls/urls';
 export default function Payment({
     serv_id,
     handleReserve,
-    setPayCode,
-    pay_code,
+
+
   }){
 
     const {data:service} = useFetch(LocalUrl + `services/${serv_id}/`)
@@ -29,8 +29,8 @@ export default function Payment({
           <Modal.Title>Payment</Modal.Title>
         </Modal.Header>
         {service && <Modal.Body>
-            <h1>{service?.price}$</h1>          
-            <input className='form-control' type='text' placeholder='Enter payment code' value={pay_code} onChange={(e) => setPayCode(e.target.value) }/>
+            <h1>{service.price}$</h1>          
+
         </Modal.Body>}
         <Modal.Footer>
           <button className='btn btn-success' onClick={handleReserve}>

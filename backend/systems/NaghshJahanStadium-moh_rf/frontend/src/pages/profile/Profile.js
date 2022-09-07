@@ -87,8 +87,10 @@ export default function Profile() {
                         service_id={reserv.service} 
                         time={reserv.time}
                         code={reserv.code}
-                        status={reserv.status}  
+                        status={reserv.status}
+                        
                         deleteItem={deleteItem}
+                        
                       />
                       
 

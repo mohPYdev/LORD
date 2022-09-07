@@ -21,7 +21,7 @@ export default function NavBar() {
               <img src="logo.jpg" width="40" height="40" alt="" />
             </a>
             <Link className="navbar-brand" to={'/login'}>
-               Sina Hospital
+               Naghsh Jahan Stadium
             </Link>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul className="navbar-nav ml-auto">

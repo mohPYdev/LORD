@@ -225,7 +225,7 @@ class GenerateFilesView(APIView):
         s_name = system.name.replace(" ", "")
         path = f'systems/{s_name}-{system.user.username}/'
         hp_path = f'media/homeP/{system.name}/'
-        logo_path = f'media/homeP/{system.name}/'
+        logo_path = f'media/logo/{system.name}/'
 
         src = 'templates/'
 
@@ -238,24 +238,88 @@ class GenerateFilesView(APIView):
 
             # backend
 
+        #models.py -> adding attributes to items
+
+        content = []
+        with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
+            content = f.readlines()
+            for i in system.attributes.all():
+                line = f'    {i.name} = models.CharField(max_length=100, blank=True, null=True)\n'   
+                content.insert(124, line)
+
+        with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
+            f.writelines(content)   
+        
+        # admin.py -> attributes
+        content = []
+        with open(os.path.join(path + 'backend/core/', 'ItemClass.py'), 'r') as f:
+            content = f.readlines()
+            for i in system.attributes.all():
+                if i.name not in ('name', 'first_name', 'last_name'):
+                    line = f'\t\t\t\t{i.name} = self.cleaned_data.get("{i.name}"),\n'   
+                    content.insert(28, line)
+                
+            if system.attributes.filter(name='first_name').exists():
+                content[24] = f'\t\t\t\tfirst_name=self.cleaned_data.get("first_name")[:-1] + str(i+2),\n'
+
+        with open(os.path.join(path + 'backend/core/', 'ItemClass.py'), 'w') as f:
+            f.writelines(content)   
+
+
+        content = []
+        with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
+            content = f.readlines()
+            if system.type == 'person':
+                nl = '\n'
+                if system.attributes.filter(name='first_name').exists():
+                    nl =  f'\t\t"first_name",\n'
+                if system.attributes.filter(name='last_name').exists():
+                    nl =  f'\t\t"last_name",\n'
+                if system.attributes.filter(name='first_name').exists():
+                    if system.attributes.filter(name='last_name').exists():
+                        nl =  f'\t\t"first_name", "last_name",\n'
+                
+                content[18] = nl
+                content[22] = nl
+            
+
+        with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
+            f.writelines(content)   
+        
+
+
+
         # models.py -> service price
         if not system.has_price:
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
                 content[82] = '\n'
+                content[105] = '\n'
+                content[106] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
                 f.writelines(content)
-
+        
             # admin.py
             content = []
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
-                content[121] = '\n'
+                content[136] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
                 f.writelines(content)
+
+        elif system.paymentType != "payment code":
+            content = []
+            with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
+                content = f.readlines()
+                content[105] = '\n'
+                # content[106] = '\n'
+
+            with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
+                f.writelines(content)
+
 
 
         if not system.has_description_service:
@@ -271,18 +335,18 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[38] = '\n'
+                content[122] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
                 f.writelines(content)
             
             # admin.py
             content = []
-            with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
+            with open(os.path.join(path + 'backend/core/', 'ItemClass.py'), 'r') as f:
                 content = f.readlines()
-                content[21] = '\n'
+                content[26] = '\n'
 
-            with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
+            with open(os.path.join(path + 'backend/core/', 'ItemClass.py'), 'w') as f:
                 f.writelines(content)
         
         if not system.has_img_service:
@@ -300,7 +364,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[39] = '\n'
+                content[123] = '\n'
                 content[14] = '\n'
                 content[15] = '\n'
                 content[16] = '\n'
@@ -312,27 +376,25 @@ class GenerateFilesView(APIView):
             # admin.py
 
             content = []
-            with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
+            with open(os.path.join(path + 'backend/core/', 'ItemClass.py'), 'r') as f:
                 content = f.readlines()
-                content[22] = '\n'
+                content[27] = '\n'
 
-            with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
+            with open(os.path.join(path + 'backend/core/', 'ItemClass.py'), 'w') as f:
                 f.writelines(content)
 
         if not system.has_large_number:
             content = []
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
-                for i in range(11, 36):
-                    content[i] = '\n'
-                content[43] = '\n'
 
-                for i in range(74, 94):
+                for i in range(58, 78):
                     content[i] = '\n'
                 
-                
-                content[54] = '\n'
-                content[48] = '\n'
+                content[11] = '\n'
+                content[26] = '\n'
+                content[37] = '\n'
+                content[31] = '\n'
 
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
@@ -342,7 +404,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/main/', 'views.py'), 'r') as f:
                 content = f.readlines()
-                content[75] = '\n'
+                content[76] = '\n'
 
             with open(os.path.join(path + 'backend/main/', 'views.py'), 'w') as f:
                 f.writelines(content)
@@ -354,7 +416,7 @@ class GenerateFilesView(APIView):
             s = system.name.replace(" ", "")
             content[0] = f'PROJECT_NAME="{s}"\n'
 
-            if system.has_email:
+            if system.has_email or system.has_forget_pass:
                 content[1] = f'EMAIL="{system.email}"\n'
                 content[2] = f'USERNAME="{system.email}"\n'
                 content[3] = f'PASSWORD="{system.password}"\n'
@@ -388,24 +450,50 @@ class GenerateFilesView(APIView):
         if system.home_page_image:
             hp = os.listdir(hp_path)[0]
             img = Image.open(os.path.join(hp_path, hp))
-            img.save(os.path.join(path + 'frontend/src/pages/landing/', f'{hp.split(".")[0]}.jpg'))
+            img_rgb = img.convert('RGB')
+            img_rgb.save(os.path.join(path + 'frontend/src/pages/landing/', f'{hp.split(".")[0]}.jpg'))
 
         if system.logo:
             logo = os.listdir(logo_path)[0]
             img = Image.open(os.path.join(logo_path, logo))
-            img.save(os.path.join(path + 'frontend/public/', f'{logo.split(".")[0]}.jpg'))
-            img.save(os.path.join(path + 'frontend/public/', f'{logo.split(".")[0]}.ico'))
+            img_rgb = img.convert('RGB')
+            img_rgb.save(os.path.join(path + 'frontend/public/', f'{logo.split(".")[0]}.jpg'))
+            img_rgb.save(os.path.join(path + 'frontend/public/', 'favicon.ico'))
+
+
+        # item attributes
+        content = []
+        with open(os.path.join(path + 'frontend/src/components/', 'ShowItem.js'), 'r') as f:
+            content = f.readlines()
+            for i in system.attributes.all():
+                if i.name not in ('name', 'first_name', 'last_name'):
+                    line = f'        <p>{{item?.{i.name}}}</p>\n'
+                    content.insert(23, line)
+            
+            if system.type == 'person':
+                nl = '\n'
+                if system.attributes.filter(name='first_name').exist():
+                    nl =  f'        <p className="h5">{{item?.first_name}}</p>\n'
+                if system.attributes.filter(name='last_name').exist():
+                    nl =  f'        <p className="h5">{{item?.last_name}}</p>\n'
+                if system.attributes.filter(name='first_name').exist():
+                    if system.attributes.filter(name='last_name').exist():
+                        nl =  f'        <p className="h5">{{item?.first_name  item?.last_name}}</p>\n'
+                
+                content[20] = nl
+
+
+        with open(os.path.join(path + 'frontend/src/components/', 'ShowItem.js'), 'w') as f:
+            f.writelines(content) 
 
 
         #  navbar
         content = []
         with open(os.path.join(path + 'frontend/src/components/', 'NavBar.js'), 'r') as f:
             content = f.readlines()
-            name_heading = content[20]
-            
+            name_heading = content[23]  
             name_heading = name_heading[:15] + system.name + '\n'
-            
-            content[20] = name_heading
+            content[23] = name_heading
 
         with open(os.path.join(path + 'frontend/src/components/', 'NavBar.js'), 'w') as f:
             f.writelines(content)
@@ -416,18 +504,111 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ItemCard.js'), 'r') as f:
                 content = f.readlines()
-                # content.pop(18)
                 content[19] = '\n'
 
             with open(os.path.join(path + 'frontend/src/components/', 'ItemCard.js'), 'w') as f:
                 f.writelines(content)
+            
+            content = []
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
+                content = f.readlines()
+                content[28] = '\n'
+                content[29] = '\n'
+                content[45] = '\n'
+                content[107] = '\n'
+                content[108] = '\n'
+                content[109] = '\n'
+                content[110] = '\n'
+                content[111] = '\n'
+
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
+                f.writelines(content)
+            
+            content = []
+            with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'r') as f:
+                content = f.readlines()
+                content[89] = '\n'
+                content[72] = '\n'
+
+            with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'w') as f:
+                f.writelines(content)
+        
+
+        elif system.paymentType == 'in person':
+            content = []
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
+                content = f.readlines()
+                content[28] = '\n'
+                content[29] = '\n'
+                content[45] = '\n'
+                content[107] = '\n'
+                content[108] = '\n'
+                content[109] = '\n'
+                content[110] = '\n'
+                content[111] = '\n'
+
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
+                f.writelines(content)
+            
+            content = []
+            with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'r') as f:
+                content = f.readlines()
+                content[89] = '\n'
+                content[72] = '\n'
+
+            with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'w') as f:
+                f.writelines(content)
+        
+        elif system.paymentType == 'online':
+            content = []
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
+                content = f.readlines()
+                content[28] = '\n'
+                content[29] = '\n'
+                content[45] = '\n'
+                content[106] = '\n'
+                content[110] = '\n'
+                
+
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
+                f.writelines(content)
+
+            content = []
+            with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'r') as f:
+                content = f.readlines()
+                content[89] = '\n'
+                content[72] = '\n'
+
+            with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'w') as f:
+                f.writelines(content)
+
+
+            content = []
+            with open(os.path.join(path + 'frontend/src/components/', 'Payment.js'), 'r') as f:
+                content = f.readlines()
+                content[10] = '\n'
+                content[11] = '\n'
+                content[32] = '\n' 
+
+            with open(os.path.join(path + 'frontend/src/components/', 'Payment.js'), 'w') as f:
+                f.writelines(content)
+        
+
+        elif system.paymentType == 'payment code':
+            content = []
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
+                content = f.readlines()
+                content[106] = '\n'
+                
+            with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
+                f.writelines(content)
+
         
         # ItemCard -> service description
         if not system.has_description_service:
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ItemCard.js'), 'r') as f:
                 content = f.readlines()
-                # content.pop(19)
                 content[20] = '\n'
 
             with open(os.path.join(path + 'frontend/src/components/', 'ItemCard.js'), 'w') as f:
@@ -448,7 +629,6 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ItemCard.js'), 'r') as f:
                 content = f.readlines()
-                # content.pop(16)
                 content[17] = '\n'
 
             with open(os.path.join(path + 'frontend/src/components/', 'ItemCard.js'), 'w') as f:
@@ -459,7 +639,6 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ShowItem.js'), 'r') as f:
                 content = f.readlines()
-                # content.pop(19)
                 content[19] = "\n"
 
             with open(os.path.join(path + 'frontend/src/components/', 'ShowItem.js'), 'w') as f:
@@ -489,26 +668,16 @@ class GenerateFilesView(APIView):
         
         # django admin user creation and migration
         os.chdir(f'{path}backend/')
-
         try:
-        #     pass
             os.rename('healthcenter', system.name.replace(" ", ""))
-            # os.system('py manage.py makemigrations core')
-            # os.system('py manage.py migrate')
-            # os.system("py make_admin.py")
         except FileNotFoundError:
             pass
-            # os.system('py manage.py makemigrations')
-            # os.system('py manage.py migrate')
-
-
 
         os.chdir('../../../')
         zip_file_path = f'systems/{s_name}'
         shutil.make_archive(zip_file_path, 'zip', f'systems/{s_name}-{system.user.username}')
         zip_file = open(f'{zip_file_path}.zip', 'rb')
  
-
         response = HttpResponse(zip_file, content_type='application/zip')
         response['Content-Disposition'] = f'attachment; filename={system.name}.zip'
 
