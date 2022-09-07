@@ -19,7 +19,7 @@ So you can choose the best customization according to the type of item you want 
 If you want to send emails after reservation or send email to reset user's passwords you should do the following:
  1. Create a gmail account
  2. Click on the little dotted square in the top right corner
- [](https://github.com/mohPYdev/RESGEN/blob/main/statics/square.png)
+![](https://github.com/mohPYdev/RESGEN/blob/main/statics/square.png)
  3. Locate security section and enable 2-step verification
  4. Follow the steps of "How to generate an App password" and recieve a random password.
  5. When generating the system, type the given password and email address into the fields.
