@@ -51,7 +51,7 @@ class ShiftSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shift
-        fields = ['id', 'start_time', 'end_time', 'date', 'repeat', 'shift', 'services', 'item', 'is_available' ]
+        fields = ['id', 'start_date', 'end_date', 'repeat', 'shift', 'services', 'item', 'is_available' ]
         read_only_fields = ['id',]
 
 
@@ -61,7 +61,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ['id', 'reserver', 'time', 'service', 'shift', 'item', 'code' ]
+        fields = ['id', 'reserver', 'time_date', 'service', 'shift', 'item', 'code', 'status']
         read_only_fields = ['id',]
 
 

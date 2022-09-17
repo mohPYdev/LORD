@@ -12,8 +12,6 @@ import { useFetch } from '../hooks/useFetch'
 export default function SelectTime({id, service_id, setTime, setTimePicked, setIsFull}) {
 
   const {data:freetimes} = useFetch(LocalUrl + `shifts/${id}/free_time/${service_id}/`)
-  // const {postData} = useFetch(LocalUrl + 'reservations/', 'POST')
-
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -47,10 +45,10 @@ export default function SelectTime({id, service_id, setTime, setTimePicked, setI
         <Modal.Body>
               <div className='row'>
                 {freetimes && freetimes.map((ft) => (
-                  <div key={ft.start} className="col-md-2">          
+                  <div key={ft.start} className="col-2 mx-2">          
                       <button 
                         className='btn btn-light btn-sm mt-2' 
-                        value={ft.start} 
+                        value={ft.start.slice(0,16)} 
                         onClick={(e) => {
                           setTime(e.target.value);
                           setShow(false);
@@ -61,7 +59,7 @@ export default function SelectTime({id, service_id, setTime, setTimePicked, setI
                               minute:"2-digit"
                               
                           }).format(
-                            new Date("2022-2-2 " + ft.start)
+                            new Date(ft.start.slice(0,16))
                           )}
                       </button>
                   </div>

@@ -5,7 +5,7 @@ import { LocalUrl } from '../urls/urls'
 import { useFetch } from '../hooks/useFetch'
 
 
-export default function ReservationItem({res_id, doc_id, shift_id, service_id, time, deleteItem, code, status}) {
+export default function ReservationItem({res_id, doc_id, shift_id, service_id, time_date, deleteItem, code, status}) {
 
     const {data:item} = useFetch(LocalUrl + `items/${doc_id}/`)
     const {data:shift} = useFetch(LocalUrl + `shifts/${shift_id}/`)
@@ -32,23 +32,22 @@ export default function ReservationItem({res_id, doc_id, shift_id, service_id, t
     useEffect(() => {
 
       if (shift && service) {
-        const date = new Date(`${shift.date}`);
+        const date = new Date(`${time_date}`);
             const faDate = new Intl.DateTimeFormat("en-US", {
             weekday: "long",
-            // year: "numeric",
             month: "long",
             day: "numeric"
             }).format(date);
             setInfo(faDate)
             
-        const td = new Date(`${shift.date} ${time}`);
+        const td = new Date(`${time_date}`);
             const ftd = new Intl.DateTimeFormat("en", {
             hour: "2-digit",
             minute: "2-digit"
             }).format(td);
             setTd(ftd)
             
-        const sd = new Date(`${shift.date} ${service.duration}`);
+        const sd = new Date(`2022-4-4 ${service.duration}`);
             const fsd = new Intl.DateTimeFormat("en-US", {
             hour: "numeric",
             minute: "numeric",
@@ -56,13 +55,13 @@ export default function ReservationItem({res_id, doc_id, shift_id, service_id, t
             }).format(sd);
             setSd(fsd)
           
-        if (new Date(Date.now()) > new Date(shift.date)){
+        if (new Date(Date.now()) > new Date(time_date)){
           setPassed(true)
         }
         
           
       }
-    },[service, shift, time])
+    },[service, shift, time_date])
 
   return (
       <tr>

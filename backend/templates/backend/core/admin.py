@@ -30,6 +30,8 @@ class ItemAdmin(admin.ModelAdmin):
 class ShiftAdminForm(ModelForm):
 
     category = forms.ModelChoiceField(queryset=Category.objects.all())
+    start_date = forms.SplitDateTimeField(widget= admin.widgets.AdminSplitDateTime())
+    end_date = forms.SplitDateTimeField(widget=admin.widgets.AdminSplitDateTime())
 
     class Meta:
         model = Shift
@@ -38,18 +40,15 @@ class ShiftAdminForm(ModelForm):
             'item',
             'is_archive'
            )
-        widgets = {
-            'start_time' : TimePickerInput(),
-            'end_time' : TimePickerInput(),
-            'date': DatePickerInput()
-        }
+        
+        
     
     def clean(self):
         services = self.cleaned_data.get('services')
-        start_time = self.cleaned_data.get('start_time')
-        end_time = self.cleaned_data.get('end_time')
+        start_date = self.cleaned_data.get('start_date')
+        end_date = self.cleaned_data.get('end_date')
         for service in services:
-            difft = datetime.combine(date.today(), end_time) - datetime.combine(date.today(), start_time)
+            difft = end_date - start_date
             if difft.seconds < service.duration.seconds:
                 raise ValidationError("duration of service is greater than your time slot length")
 
@@ -63,9 +62,8 @@ class ShiftAdminForm(ModelForm):
         for i in range(1, len(items)):
             s = Shift.objects.create(
                 item=items[i],
-                start_time = instance.start_time,
-                end_time = instance.end_time,
-                date = instance.date,
+                start_date = instance.start_date,
+                end_date = instance.end_date,
                 repeat = instance.repeat,
                 n_time_repeat = instance.n_time_repeat,
             )
@@ -83,7 +81,7 @@ def make_archive(modeladmin, request, queryset):
     queryset.update(is_archive=True)
 
 class ShiftAdmin(admin.ModelAdmin):
-    list_display = ('date', 'start_time', 'end_time', 'item', 'get_category')
+    list_display = ('start_date', 'end_date', 'item', 'get_category')
     list_filter = ('services', 'item')
 
     actions = [make_archive]
@@ -104,7 +102,7 @@ class ShiftAdmin(admin.ModelAdmin):
 
 class ShiftArchiveAdmin(admin.ModelAdmin):
 
-    list_display = ('date', 'start_time', 'end_time', 'item', 'get_category')
+    list_display = ('start_date', 'end_date', 'item', 'get_category')
     list_filter = ('services', 'item')
 
     def get_category(self, obj):
@@ -140,14 +138,18 @@ class ServiceAdmin(admin.ModelAdmin):
 
 class ReservationArchiveAdmin(admin.ModelAdmin):
 
-    list_display = ('item', 'reserver',  'time', 'code', 
+    list_display = ('item', 'reserver',  'time_date', 'code', 
     'status'
     )
     list_filter = ('item',)
 
 
     def get_queryset(self, request):
-        return super().get_queryset(request).filter(Q(is_archive=True) | Q(status='not accepted'))
+        return super().get_queryset(request).filter(
+            Q(is_archive=True)
+            | 
+            Q(status='not accepted')
+        )
 
     def has_add_permission(self, request, obj=None):
         # cannot add an entity
@@ -155,14 +157,18 @@ class ReservationArchiveAdmin(admin.ModelAdmin):
 
 
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ('item', 'reserver',  'time', 'code', 
+    list_display = ('item', 'reserver',  'time_date', 'code', 
     'status'
     )
     list_filter = ('item',)
     actions = [make_archive]
 
     def get_queryset(self, request):
-        return super().get_queryset(request).filter(Q(is_archive=False) & ~Q(status='not accepted'))
+        return super().get_queryset(request).filter(
+            Q(is_archive=False) 
+            & 
+            ~Q(status='not accepted')
+        )
 
 
 class UserAdminCustom(UserAdmin):

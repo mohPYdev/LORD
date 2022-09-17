@@ -52,9 +52,9 @@ export default function Profile() {
                           ?.phone_number}</p>
                     </li>
                   </ul>
-                  <div className='d-flex justify-content-center mt-3'>
+                  {/* <div className='d-flex justify-content-center mt-3'>
                     <button type="button" className="btn btn-primary">change password</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function Profile() {
                         doc_id={reserv.item} 
                         shift_id={reserv.shift} 
                         service_id={reserv.service} 
-                        time={reserv.time}
+                        time_date={reserv.time_date.slice(0, 16)}
                         code={reserv.code}
                         status={reserv.status}  
                         deleteItem={deleteItem}

@@ -12,11 +12,8 @@ export default function ServiceCard({shift, serv_id}) {
 
   const navigate = useNavigate()
 
-  // const {data:service} = useFetch(LocalUrl + `services/${id}/`)
   const {data: res, postData} = useFetch(LocalUrl + "reservations/", "POST")
 
-  // const [shift,
-  //   setShift] = useState();
   const [start_t,
     setStart_t] = useState("date");
   const [end_t,
@@ -40,7 +37,7 @@ export default function ServiceCard({shift, serv_id}) {
   const handleReserve = () => {
     postData({
       "item": shift.item,
-      "time": time,
+      "time_date": time,
       "service": serv_id,
       "shift": shift.id,
       'pay_code': pay_code,
@@ -49,7 +46,7 @@ export default function ServiceCard({shift, serv_id}) {
 
   useEffect(() => {
     if (shift){
-      const d = new Date(`${shift.date}`)
+      const d = new Date(`${shift.start_date.slice(0, 16)}`)
       const faDate = new Intl.DateTimeFormat("en", {
         month:"long",
         weekday:"long",
@@ -57,7 +54,7 @@ export default function ServiceCard({shift, serv_id}) {
       }).format(d);
       setDate(faDate)
 
-      const sd = new Date(`${shift.date} ${shift.start_time}`)
+      const sd = new Date(`${shift.start_date.slice(0, 16)}`)
       const faStart = new Intl.DateTimeFormat("en", {
         hour:"numeric",
         hour12:false,
@@ -65,7 +62,7 @@ export default function ServiceCard({shift, serv_id}) {
       }).format(sd);
       setStart_t(faStart)
 
-      const ed = new Date(`${shift.date} ${shift.end_time}`)
+      const ed = new Date(`${shift.end_date.slice(0, 16)}`)
       const faEnd = new Intl.DateTimeFormat("en", {
         hour:"numeric",
         hour12:false,
@@ -84,7 +81,6 @@ export default function ServiceCard({shift, serv_id}) {
 
   useEffect(() => {
     if(res){
-      console.log(res)
       navigate('/profile')
     }
   },[navigate, res])

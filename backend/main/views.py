@@ -245,7 +245,7 @@ class GenerateFilesView(APIView):
             content = f.readlines()
             for i in system.attributes.all():
                 line = f'    {i.name} = models.CharField(max_length=100, blank=True, null=True)\n'   
-                content.insert(124, line)
+                content.insert(112, line)
 
         with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
             f.writelines(content)   
@@ -294,9 +294,9 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[82] = '\n'
-                content[105] = '\n'
-                content[106] = '\n'
+                content[70] = '\n'
+                content[93] = '\n'
+                content[94] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
                 f.writelines(content)
@@ -305,9 +305,9 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
-                content[136] = '\n'
-                content[143] = '\n'
-                content[158] = '\n'
+                content[134] = '\n'
+                content[141] = '\n'
+                content[160] = '\n'
 
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
@@ -317,7 +317,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[105] = '\n'
+                content[93] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
                 f.writelines(content)
@@ -326,8 +326,8 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
-                content[143] = '\n'
-                content[158] = '\n'
+                content[141] = '\n'
+                content[160] = '\n'
 
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
@@ -339,7 +339,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[83] = '\n'
+                content[71] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
                 f.writelines(content)
@@ -348,7 +348,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[122] = '\n'
+                content[110] = '\n'
 
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'w') as f:
                 f.writelines(content)
@@ -366,7 +366,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[84] = '\n'
+                content[72] = '\n'
                 content[19] = '\n'
                 content[20] = '\n'
 
@@ -377,7 +377,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/core/', 'models.py'), 'r') as f:
                 content = f.readlines()
-                content[123] = '\n'
+                content[111] = '\n'
                 content[14] = '\n'
                 content[15] = '\n'
                 content[16] = '\n'
@@ -401,13 +401,13 @@ class GenerateFilesView(APIView):
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'r') as f:
                 content = f.readlines()
 
-                for i in range(58, 78):
+                for i in range(57, 77):
                     content[i] = '\n'
                 
                 content[11] = '\n'
                 content[26] = '\n'
-                content[37] = '\n'
                 content[31] = '\n'
+                content[39] = '\n'
 
 
             with open(os.path.join(path + 'backend/core/', 'admin.py'), 'w') as f:
@@ -417,7 +417,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'backend/main/', 'views.py'), 'r') as f:
                 content = f.readlines()
-                content[83] = '\n'
+                content[80] = '\n'
 
             with open(os.path.join(path + 'backend/main/', 'views.py'), 'w') as f:
                 f.writelines(content)
@@ -494,9 +494,28 @@ class GenerateFilesView(APIView):
                         nl =  f'        <p className="h5">{{item?.first_name}}  {{item?.last_name}}</p>\n'
                 
                 content[20] = nl
-
-
+        
         with open(os.path.join(path + 'frontend/src/components/', 'ShowItem.js'), 'w') as f:
+            f.writelines(content) 
+
+        content = []
+        with open(os.path.join(path + 'frontend/src/components/', 'ReservationItem.js'), 'r') as f:
+            content = f.readlines()
+            
+            if system.type == 'person':
+                nl = '\n'
+                if system.attributes.filter(name='first_name').exists():
+                    nl =  f'        <p className="fw-bold mb-1">{{item?.first_name}}</p>\n'
+                if system.attributes.filter(name='last_name').exists():
+                    nl =  f'        <p className="fw-bold mb-1">{{item?.last_name}}</p>\n'
+                if system.attributes.filter(name='first_name').exists():
+                    if system.attributes.filter(name='last_name').exists():
+                        nl =  f'        <p className="fw-bold mb-1">{{item?.first_name}}  {{item?.last_name}}</p>\n'
+                
+                content[71] = nl
+
+
+        with open(os.path.join(path + 'frontend/src/components/', 'ReservationItem.js'), 'w') as f:
             f.writelines(content) 
 
 
@@ -525,14 +544,14 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
                 content = f.readlines()
-                content[28] = '\n'
-                content[29] = '\n'
-                content[45] = '\n'
+                content[25] = '\n'
+                content[26] = '\n'
+                content[42] = '\n'
+                content[103] = '\n'
+                content[104] = '\n'
+                content[105] = '\n'
+                content[106] = '\n'
                 content[107] = '\n'
-                content[108] = '\n'
-                content[109] = '\n'
-                content[110] = '\n'
-                content[111] = '\n'
 
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
                 f.writelines(content)
@@ -551,14 +570,14 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
                 content = f.readlines()
-                content[28] = '\n'
-                content[29] = '\n'
-                content[45] = '\n'
+                content[25] = '\n'
+                content[26] = '\n'
+                content[42] = '\n'
+                content[103] = '\n'
+                content[104] = '\n'
+                content[105] = '\n'
+                content[106] = '\n'
                 content[107] = '\n'
-                content[108] = '\n'
-                content[109] = '\n'
-                content[110] = '\n'
-                content[111] = '\n'
 
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
                 f.writelines(content)
@@ -576,11 +595,11 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
                 content = f.readlines()
-                content[28] = '\n'
-                content[29] = '\n'
-                content[45] = '\n'
+                content[25] = '\n'
+                content[26] = '\n'
+                content[42] = '\n'
+                content[102] = '\n'
                 content[106] = '\n'
-                content[110] = '\n'
                 
 
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
@@ -590,7 +609,7 @@ class GenerateFilesView(APIView):
             with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'r') as f:
                 content = f.readlines()
                 content[89] = '\n'
-                content[72] = '\n'
+                # content[72] = '\n'
 
             with open(os.path.join(path + 'frontend/src/pages/profile/', 'Profile.js'), 'w') as f:
                 f.writelines(content)
@@ -611,7 +630,7 @@ class GenerateFilesView(APIView):
             content = []
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'r') as f:
                 content = f.readlines()
-                content[106] = '\n'
+                content[102] = '\n'
                 
             with open(os.path.join(path + 'frontend/src/components/', 'ServiceCard.js'), 'w') as f:
                 f.writelines(content)

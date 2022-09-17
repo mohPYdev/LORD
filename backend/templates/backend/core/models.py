@@ -32,17 +32,6 @@ class User(AbstractUser):
         return self.username + ' ' + str(self.id)
 
 
-# class Item(models.Model):
-
-#     name = models.CharField(max_length=100)
-#     category = models.ForeignKey('Category', on_delete=models.DO_NOTHING, null=True)
-#     description = models.TextField()
-#     image = models.ImageField(upload_to=upload_item_image_path, null=True, blank=True)
-
-#     def __str__(self):
-#         return self.name
-
-
 class Category(models.Model):
     """tags for items in order to categorize them"""
     
@@ -64,9 +53,8 @@ class Shift(models.Model):
 
     item = models.ForeignKey('Item', on_delete=models.CASCADE, null=True)
     is_available = models.BooleanField(default=True)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    date = models.DateField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     repeat = models.CharField(max_length=100, choices=RepeatType)
     shift = models.ForeignKey('Shift', on_delete= models.CASCADE, null=True, blank=True, related_name='repeatShifts')
     n_time_repeat = models.IntegerField(default=1)
@@ -74,7 +62,7 @@ class Shift(models.Model):
     is_archive = models.BooleanField(default=False)
 
     def __str__(self):
-        return  str(self.date) + ' ' + str(self.start_time) + '-' + str(self.end_time) + str(self.id)
+        return  str(self.start_date) + '-' + str(self.end_date) + str(self.id)
 
 
 class Service(models.Model):
@@ -101,14 +89,14 @@ class Reservation(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE, null=True)
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE, null=True)
     service = models.ForeignKey('Service', on_delete=models.CASCADE, null=True)
-    time = models.TimeField()
+    time_date = models.DateTimeField()
     code = models.CharField(default=get_random_string_me, max_length=9)
     pay_code = models.CharField(max_length=20, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_TYPES, default='review')
     is_archive = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.reserver.username + " " + str(self.time)
+        return self.reserver.username + " " + str(self.service)
 
 
 class ReservationArchive(Reservation):
@@ -134,22 +122,26 @@ class ShiftArchive(Shift):
 # add n_time_repeat more shifts depending on the repeat
 def update_item(sender, instance, action, **kwargs):
     if action == 'post_add':
-        rep = instance.date
+        st = instance.start_date
+        en = instance.end_date
         if instance.repeat != 'do not repeat':
             for i in range(instance.n_time_repeat):
                 if instance.repeat == 'every week':
-                    rep = rep + datetime.timedelta(days=7)
+                    st = st + datetime.timedelta(days=7)
+                    en = en + datetime.timedelta(days=7)
                 elif instance.repeat == 'every 2 weeks':
-                    rep = rep + datetime.timedelta(days=14)
+                    st = st + datetime.timedelta(days=14)
+                    en = en + datetime.timedelta(days=14)
                 elif instance.repeat == 'every month':
-                    rep = rep + datetime.timedelta(days=30)
+                    st = st + datetime.timedelta(days=30)
+                    en = en + datetime.timedelta(days=30)
                 elif instance.repeat == 'every 2 months':
-                    rep = rep + datetime.timedelta(days=60)
+                    st = st+ datetime.timedelta(days=60)
+                    en = en + datetime.timedelta(days=60)
                 s = Shift.objects.create(
                     item=instance.item,
-                    start_time=instance.start_time,
-                    end_time=instance.end_time,
-                    date=rep,
+                    start_date=st,
+                    end_date=en,
                     repeat= 'do not repeat',
                     n_time_repeat = 0,
                     shift = instance,
