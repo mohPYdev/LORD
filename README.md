@@ -71,5 +71,5 @@ Creating a simple booking website for my professor with the panel under 1 minute
 ## Samples
 - [Dr Bahman zamani](https://github.com/mohPYdev/RESGEN/tree/main/Samples/DrBahmanZamani)
 - [Naghsh Jahan Stadium](https://github.com/mohPYdev/RESGEN/tree/main/Samples/Naghsh%20Jahan%20Stadium)
-- [Tripsvvy Car rental](https://github.com/mohPYdev/RESGEN/tree/main/Samples/TripsvvyCarrental)
+- [Tripsvvy Car rental](https://github.com/mohPYdev/RESGEN/tree/main/Samples/Tripsvvy%20Car%20rental)
 
