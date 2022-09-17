@@ -1,7 +1,7 @@
 
-# Project Title
+# LORD
 
-This project is an online panel for generating reservation/booking websites with lots of features to customize.
+LORD (LowcOde Reservation system Development) is an online panel for generating reservation/booking websites developed using MDSE methodology with lots of features to customize.
 We devided the reservation items into 3 groups:
  - Places 
     - eg. Cinema, Restaurant, Stadium
