@@ -1,7 +1,7 @@
 
-# Project Title
+# LORD
 
-This project is an online panel for generating reservation/booking websites with lots of features to customize.
+LORD (LowcOde Reservation system Development) is an online panel for generating reservation/booking websites developed using MDSE methodology with lots of features to customize.
 We devided the reservation items into 3 groups:
  - Places 
     - eg. Cinema, Restaurant, Stadium
@@ -19,7 +19,7 @@ So you can choose the best customization according to the type of item you want 
 If you want to send emails after reservation or send email to reset user's passwords you should do the following:
  1. Create a gmail account
  2. Click on the little dotted square in the top right corner
-![](https://github.com/mohPYdev/RESGEN/blob/main/statics/square.png)
+![](https://github.com/mohPYdev/RESGEN/blob/main/statics/gmail.png)
  3. Locate security section and enable 2-step verification
  4. Follow the steps of "How to generate an App password" and recieve a random password.
  5. When generating the system, type the given password and email address into the fields.
@@ -70,6 +70,10 @@ Creating a simple booking website for my professor with the panel under 1 minute
 
 ## Samples
 - [Dr Bahman zamani](https://github.com/mohPYdev/RESGEN/tree/main/Samples/DrBahmanZamani)
+     - <img src="https://github.com/mohPYdev/RESGEN/blob/main/statics/dr%20zamani%20img.png" alt="drzamani" width="400"/>
 - [Naghsh Jahan Stadium](https://github.com/mohPYdev/RESGEN/tree/main/Samples/Naghsh%20Jahan%20Stadium)
+     - <img src="https://github.com/mohPYdev/RESGEN/blob/main/statics/naghsh%20img.png" alt="drzamani" width="400"/>
 - [Tripsvvy Car rental](https://github.com/mohPYdev/RESGEN/tree/main/Samples/Tripsvvy%20Car%20rental)
+     - <img src="https://github.com/mohPYdev/RESGEN/blob/main/statics/car%20img.png" alt="drzamani" width="400"/>
+
 
