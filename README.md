@@ -31,6 +31,7 @@ after setting up your admin email, you can generate the system with the option t
 !note: In the attributes section (section 4), you should choose a name if your item is either a resource or a place or you should choose first_name and last_name for your item!
 
 
+
 ## Features
 
 - Light/dark mode toggle
